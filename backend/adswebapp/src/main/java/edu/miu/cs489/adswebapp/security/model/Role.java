@@ -14,17 +14,28 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Getter
 public enum Role {
-    PATIENT(Set.of(Permission.PATIENT_WRITE, Permission.PATIENT_READ)),
-    OFFICE_ADMIN(Set.of(Permission.OFFICE_ADMIN_WRITE, Permission.OFFICE_ADMIN_READ)),
-    DENTIST(Set.of(Permission.DENTIST_WRITE, Permission.DENTIST_READ));
+    PATIENT(Set.of(
+            Permission.APPOINTMENT_MAKE, Permission.APPOINTMENT_CANCEL, Permission.APPOINTMENT_READ,
+            Permission.BILL_READ, Permission.BILL_PAY, Permission.SURGERY_READ, Permission.PATIENT_READ,
+            Permission.CREDENTIAL_WRITE
+                  )),
+    DENTIST(Set.of(
+            Permission.DENTIST_READ, Permission.APPOINTMENT_READ, Permission.APPOINTMENT_COMPLETE,
+            Permission.SURGERY_READ, Permission.CREDENTIAL_WRITE
+                  )),
+    OFFICE_ADMIN(Set.of(
+            Permission.SURGERY_READ, Permission.PATIENT_READ, Permission.DENTIST_READ, Permission.DENTIST_WRITE,
+            Permission.APPOINTMENT_SCHEDULE, Permission.APPOINTMENT_CANCEL, Permission.CREDENTIAL_WRITE
+                       )),
+    ;
 
     private final Set<Permission> permissions;
 
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<SimpleGrantedAuthority> authorities = getPermissions()
-                .stream()
-                .map(permission -> new SimpleGrantedAuthority(permission.getPermission()))
-                .collect(Collectors.toList());
+        List<SimpleGrantedAuthority> authorities = getPermissions().stream()
+                                                                   .map(permission -> new SimpleGrantedAuthority(
+                                                                           permission.getPermission()))
+                                                                   .collect(Collectors.toList());
 
         authorities.add(new SimpleGrantedAuthority("ROLE_" + this.name()));
         return authorities;
