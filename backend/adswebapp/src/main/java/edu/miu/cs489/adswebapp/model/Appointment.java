@@ -35,8 +35,9 @@ public class Appointment {
     private Date appointmentDateTime;
 
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "appointment_status", nullable = false)
-    private int appointmentStatus;
+    private AppointmentStatus appointmentStatus;
 
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "bill_id")
