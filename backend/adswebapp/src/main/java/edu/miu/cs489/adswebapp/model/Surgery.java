@@ -18,7 +18,7 @@ public class Surgery {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "surgery_no", nullable = false, length = 100)
+    @Column(name = "surgery_no", unique = true, nullable = false, length = 100)
     private String surgeryNo;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
