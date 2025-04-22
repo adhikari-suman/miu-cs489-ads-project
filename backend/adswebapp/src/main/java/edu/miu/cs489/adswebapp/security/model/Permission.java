@@ -6,13 +6,30 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Getter
 public enum Permission {
-    DENTIST_READ("dentist:read"),
-    DENTIST_WRITE("dentist:write"),
+    // Appointment-related permissions
+    APPOINTMENT_MAKE("appointment:make"),
+    APPOINTMENT_CANCEL("appointment:cancel"),
+    APPOINTMENT_SCHEDULE("appointment:schedule"),
+    APPOINTMENT_COMPLETE("appointment:complete"),
+    APPOINTMENT_READ("appointment:read"),
+
+    // Surgery-related permissions
+    SURGERY_WRITE("surgery:write"),
+    SURGERY_READ("surgery:read"),
+
+    // Bill-related permissions
+    BILL_READ("bill:read"),
+    BILL_PAY("bill:pay"),
+
+    // Patient-related permissions
     PATIENT_READ("patient:read"),
-    PATIENT_WRITE("patient:write"),
-    OFFICE_ADMIN_READ("office-admin:read"),
-    OFFICE_ADMIN_WRITE("office-admin:write"),
-    OFFICE_ADMIN_DELETE("office-admin:delete");
+
+    // Dentist-related permissions
+    DENTIST_WRITE("dentist:write"),
+    DENTIST_READ("dentist:read"),
+
+    // Credential-related permissions
+    CREDENTIAL_WRITE("credential:write");
 
     private final String permission;
 }
