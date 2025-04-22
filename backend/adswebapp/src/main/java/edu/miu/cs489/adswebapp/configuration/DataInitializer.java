@@ -152,7 +152,7 @@ public class DataInitializer {
             appointment1.setDentist(tony);
             appointment1.setSurgery(s15);
             appointment1.setAppointmentDateTime(parseDate("12-Sep-13 10:00", dateFormat));
-            appointment1.setAppointmentStatus(0);
+            appointment1.setAppointmentStatus(AppointmentStatus.SCHEDULED);
             Bill bill1 = new Bill();
             bill1.setAppointment(appointment1);
             bill1.setAmount(BigDecimal.valueOf(100.00));
@@ -164,7 +164,7 @@ public class DataInitializer {
             appointment2.setDentist(tony);
             appointment2.setSurgery(s15);
             appointment2.setAppointmentDateTime(parseDate("12-Sep-13 12:00", dateFormat));
-            appointment2.setAppointmentStatus(0);
+            appointment2.setAppointmentStatus(AppointmentStatus.COMPLETED);
             Bill bill2 = new Bill();
             bill2.setAppointment(appointment2);
             bill2.setAmount(BigDecimal.valueOf(150.00));
@@ -176,7 +176,7 @@ public class DataInitializer {
             appointment3.setDentist(helen);
             appointment3.setSurgery(s10);
             appointment3.setAppointmentDateTime(parseDate("12-Sep-13 10:00", dateFormat));
-            appointment3.setAppointmentStatus(0);
+            appointment3.setAppointmentStatus(AppointmentStatus.COMPLETED);
             Bill bill3 = new Bill();
             bill3.setAppointment(appointment3);
             bill3.setAmount(BigDecimal.valueOf(200.00));
@@ -188,7 +188,7 @@ public class DataInitializer {
             appointment4.setDentist(helen);
             appointment4.setSurgery(s10);
             appointment4.setAppointmentDateTime(parseDate("14-Sep-13 14:00", dateFormat));
-            appointment4.setAppointmentStatus(0);
+            appointment4.setAppointmentStatus(AppointmentStatus.CANCELLED);
             Bill bill4 = new Bill();
             bill4.setAppointment(appointment4);
             bill4.setAmount(BigDecimal.valueOf(250.00));
@@ -200,7 +200,7 @@ public class DataInitializer {
             appointment5.setDentist(robin);
             appointment5.setSurgery(s15);
             appointment5.setAppointmentDateTime(parseDate("14-Sep-13 16:30", dateFormat));
-            appointment5.setAppointmentStatus(0);
+            appointment5.setAppointmentStatus(AppointmentStatus.SCHEDULED);
             Bill bill5 = new Bill();
             bill5.setAppointment(appointment5);
             bill5.setAmount(BigDecimal.valueOf(300.00));
@@ -212,7 +212,7 @@ public class DataInitializer {
             appointment6.setDentist(robin);
             appointment6.setSurgery(s13);
             appointment6.setAppointmentDateTime(parseDate("15-Sep-13 18:00", dateFormat));
-            appointment6.setAppointmentStatus(0);
+            appointment6.setAppointmentStatus(AppointmentStatus.COMPLETED);
             Bill bill6 = new Bill();
             bill6.setAppointment(appointment6);
             bill6.setAmount(BigDecimal.valueOf(350.00));
