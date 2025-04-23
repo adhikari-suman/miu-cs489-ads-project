@@ -4,6 +4,7 @@ import edu.miu.cs489.adswebapp.dto.response.PatientResponseDTO;
 import edu.miu.cs489.adswebapp.service.PatientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -26,6 +27,7 @@ public class UserController {
         return ResponseEntity.ok("User with username: " + username + " found.");
     }
 
+    @PreAuthorize("#username == authentication.name")
     @GetMapping("/{username}/patient-detail")
     public ResponseEntity<PatientResponseDTO> getPatientDetailByUsername(
             @PathVariable("username") String username
