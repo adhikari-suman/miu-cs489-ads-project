@@ -2,6 +2,7 @@ package edu.miu.cs489.adswebapp.exception;
 
 import edu.miu.cs489.adswebapp.exception.patient.DuplicatePatientFoundException;
 import edu.miu.cs489.adswebapp.exception.patient.PatientNotFoundException;
+import edu.miu.cs489.adswebapp.security.exception.user.InvalidCredentialsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -51,4 +52,15 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
     }
+
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public ResponseEntity<ApiError> handleInvalidCredentialsException(InvalidCredentialsException e) {
+        ApiError apiError = new ApiError(
+                HttpStatus.UNAUTHORIZED.value(),
+                e.getMessage(), null
+        );
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(apiError);
+    }
+
 }
