@@ -1,6 +1,13 @@
 import { jwtDecode } from "jwt-decode";
 import { LocalStorageKeys } from "../constants";
 
+export enum Role {
+  PATIENT = "ROLE_PATIENT",
+  OFFICE_ADMIN = "ROLE_OFFICE_ADMIN",
+  DENTIST = "ROLE_DENTIST",
+  UNDEFINED = "UNDEFINED",
+}
+
 interface ApiJwtPayload {
   iss: string;
   iat: number;
@@ -12,9 +19,22 @@ interface ApiJwtPayload {
 
 export interface UserDetails {
   username: string;
-  role: string;
+  role: Role;
   permissions: Set<string>;
 }
+
+export const mapToRole = (role: string): Role => {
+  switch (role) {
+    case Role.PATIENT:
+      return Role.PATIENT;
+    case Role.OFFICE_ADMIN:
+      return Role.OFFICE_ADMIN;
+    case Role.DENTIST:
+      return Role.DENTIST;
+    default:
+      return Role.UNDEFINED;
+  }
+};
 
 export const isValidJwtToken = (token: string | null): boolean => {
   if (typeof token !== "string" || token.trim() === "") {
@@ -56,7 +76,13 @@ export const getCurrentUser = (): UserDetails | null => {
 
   const authorities = (decodedToken.authorities ?? "").split(",");
 
-  const role = authorities.find((auth) => auth.startsWith("ROLE_")) ?? "";
+  const roleStr = authorities.find((auth) => auth.startsWith("ROLE_")) ?? "";
+
+  let role: Role = mapToRole(roleStr);
+
+  switch (roleStr) {
+  }
+
   const permissions = new Set<string>(
     authorities.filter((auth) => auth !== role)
   );
