@@ -1,6 +1,7 @@
 package edu.miu.cs489.adswebapp.security.dto.request;
 
 import edu.miu.cs489.adswebapp.dto.request.AddressRequestDTO;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
@@ -29,7 +30,10 @@ public record PatientRegistrationRequestDTO(
         String email,
         @NotBlank(message = "Patient number is required")
         String patientNo,
+        @NotNull(message = "Date of birth is required")
+        @Past(message = "Date of birth must be in the past")
         LocalDate dateOfBirth,
+        @Valid
         @NotNull
         AddressRequestDTO address
 ) {
