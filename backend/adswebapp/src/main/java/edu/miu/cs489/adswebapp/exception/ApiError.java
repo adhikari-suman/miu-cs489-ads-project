@@ -1,5 +1,7 @@
 package edu.miu.cs489.adswebapp.exception;
 
-public record ApiError(Integer code, String message) {
+import java.util.Map;
+
+public record ApiError(Integer code, String message, Map<String, String> errors) {
 
 }
