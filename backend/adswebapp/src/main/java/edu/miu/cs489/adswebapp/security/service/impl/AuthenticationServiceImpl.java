@@ -1,12 +1,16 @@
 package edu.miu.cs489.adswebapp.security.service.impl;
 
+import edu.miu.cs489.adswebapp.dto.response.UserResponseDTO;
 import edu.miu.cs489.adswebapp.exception.patient.DuplicatePatientFoundException;
+import edu.miu.cs489.adswebapp.mapper.UserMapper;
 import edu.miu.cs489.adswebapp.model.Patient;
 import edu.miu.cs489.adswebapp.respository.PatientRepository;
 import edu.miu.cs489.adswebapp.respository.UserRepository;
 import edu.miu.cs489.adswebapp.security.dto.request.AuthenticationRequestDTO;
+import edu.miu.cs489.adswebapp.security.dto.request.CredentialUpdateRequestDTO;
 import edu.miu.cs489.adswebapp.security.dto.request.PatientRegistrationRequestDTO;
 import edu.miu.cs489.adswebapp.security.dto.response.AuthenticationSuccessResponseDTO;
+import edu.miu.cs489.adswebapp.security.exception.user.InvalidCredentialsException;
 import edu.miu.cs489.adswebapp.security.mapper.AuthenticationMapper;
 import edu.miu.cs489.adswebapp.security.model.Role;
 import edu.miu.cs489.adswebapp.security.model.User;
@@ -17,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +36,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final AuthenticationMapper  mapper;
     private final JwtService            jwtService;
     private final AuthenticationManager authenticationManager;
+    private final UserMapper userMapper;
 
     @Override
     public AuthenticationSuccessResponseDTO registerPatient(PatientRegistrationRequestDTO patientRegistrationRequestDTO) {
@@ -65,5 +71,30 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         String accessToken = jwtService.generateToken(user);
 
         return new AuthenticationSuccessResponseDTO(accessToken);
+    }
+
+    @Override
+    public void updatePassword(String username, CredentialUpdateRequestDTO credentialUpdateRequestDTO) {
+       User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+
+       boolean isCurrentPasswordValid = passwordEncoder.matches(credentialUpdateRequestDTO.password(),
+                                                              user.getPassword());
+
+       if(!isCurrentPasswordValid){
+           throw new InvalidCredentialsException("Current password is invalid");
+       }
+
+       user.setPassword(passwordEncoder.encode(credentialUpdateRequestDTO.newPassword()));
+
+       userRepository.save(user);
+    }
+
+    @Override
+    public UserResponseDTO getUserByUsername(String username) {
+        User user = userRepository.findByUsername(username)
+                                  .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+
+        return userMapper.userToUserResponseDTO(user);
     }
 }
