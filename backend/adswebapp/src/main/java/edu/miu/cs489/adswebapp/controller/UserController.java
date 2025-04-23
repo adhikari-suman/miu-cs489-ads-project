@@ -1,10 +1,14 @@
 package edu.miu.cs489.adswebapp.controller;
 
 import edu.miu.cs489.adswebapp.dto.response.PatientResponseDTO;
+import edu.miu.cs489.adswebapp.dto.response.UserResponseDTO;
+import edu.miu.cs489.adswebapp.security.dto.request.CredentialUpdateRequestDTO;
+import edu.miu.cs489.adswebapp.security.service.AuthenticationService;
 import edu.miu.cs489.adswebapp.service.PatientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -12,19 +16,25 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class UserController {
     private final PatientService patientService;
+    private final AuthenticationService authenticationService;
 
+    @PreAuthorize("#username == authentication.name")
     @GetMapping("/{username}")
-    public ResponseEntity<Object> getUserByUsername(
+    public ResponseEntity<UserResponseDTO> getUserByUsername(
             @PathVariable("username") String username
-                                                   ) {
-        return ResponseEntity.ok("User with username: " + username + " found.");
+                                                            ) {
+        UserResponseDTO userResponseDTO = authenticationService.getUserByUsername(username);
+        return ResponseEntity.ok(userResponseDTO);
     }
 
+    @PreAuthorize("#username == authentication.name")
     @PatchMapping("/{username}/credentials")
-    public ResponseEntity<Object> updateCredentialsForUsername(
-            @PathVariable("username") String username
-                                                   ) {
-        return ResponseEntity.ok("User with username: " + username + " found.");
+    public ResponseEntity<Void> updateCredentialsForUsername(
+            @PathVariable("username") String username,
+            @Validated @RequestBody CredentialUpdateRequestDTO credentialUpdateRequestDTO
+                                                              ) {
+        authenticationService.updatePassword(username, credentialUpdateRequestDTO);
+        return ResponseEntity.noContent().build();
     }
 
     @PreAuthorize("#username == authentication.name")
