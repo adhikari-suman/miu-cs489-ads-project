@@ -2,62 +2,68 @@ import { jwtDecode } from "jwt-decode";
 import { LocalStorageKeys } from "../constants";
 
 interface ApiJwtPayload {
-    iss: string;
-    iat: number;
-    exp: number;
-    sub: string;
-    user_id: number;
-    authorities: string; // Comma-separated string
+  iss: string;
+  iat: number;
+  exp: number;
+  sub: string;
+  user_id: number;
+  authorities: string; // Comma-separated string
 }
 
 export interface UserDetails {
-    username: string;
-    role: string;
-    permissions: Set<string>;
+  username: string;
+  role: string;
+  permissions: Set<string>;
 }
 
 export const isValidJwtToken = (token: string | null): boolean => {
-    if (typeof token !== 'string' || token.trim() === '') {
-        return false;
-    }
+  if (typeof token !== "string" || token.trim() === "") {
+    return false;
+  }
 
-    let decodedToken: ApiJwtPayload;
+  let decodedToken: ApiJwtPayload;
 
-    try {
-        decodedToken = jwtDecode<ApiJwtPayload>(token);
-    } catch (err) {
-        console.error('Failed to decode token:', err);
-        return false;
-    }
+  try {
+    decodedToken = jwtDecode<ApiJwtPayload>(token);
+  } catch (err) {
+    console.error("Failed to decode token:", err);
+    return false;
+  }
 
-    if (!decodedToken.exp || typeof decodedToken.exp !== 'number') {
-        return false;
-    }
+  if (!decodedToken.exp || typeof decodedToken.exp !== "number") {
+    return false;
+  }
 
-    const expiryTime = new Date(decodedToken.exp * 1000);
-    const currentTime = new Date();
+  const expiryTime = new Date(decodedToken.exp * 1000);
+  const currentTime = new Date();
 
-    return currentTime < expiryTime;
+  return currentTime < expiryTime;
 };
 
 export const getCurrentUser = (): UserDetails | null => {
-    const token = localStorage.getItem(LocalStorageKeys.JWT_TOKEN_KEY);
+  const token = localStorage.getItem(LocalStorageKeys.JWT_TOKEN_KEY);
 
-    if (!isValidJwtToken(token)) {
-        return null;
-    }
+  console.log("Token:" + token);
 
-    const decodedToken = jwtDecode<ApiJwtPayload>(token!);
-    const username = decodedToken.sub ?? '';
+  if (!isValidJwtToken(token)) {
+    return null;
+  }
 
-    const authorities = (decodedToken.authorities ?? '').split(',');
+  console.log("Token:" + token);
 
-    const role = authorities.find(auth => auth.startsWith('ROLE_')) ?? '';
-    const permissions = new Set<string>(authorities.filter(auth => auth !== role));
+  const decodedToken = jwtDecode<ApiJwtPayload>(token!);
+  const username = decodedToken.sub ?? "";
 
-    return Object.freeze({
-        username,
-        role,
-        permissions
-    });
+  const authorities = (decodedToken.authorities ?? "").split(",");
+
+  const role = authorities.find((auth) => auth.startsWith("ROLE_")) ?? "";
+  const permissions = new Set<string>(
+    authorities.filter((auth) => auth !== role)
+  );
+
+  return Object.freeze({
+    username,
+    role,
+    permissions,
+  });
 };
