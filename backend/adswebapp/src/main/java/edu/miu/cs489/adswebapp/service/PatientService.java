@@ -15,4 +15,5 @@ public interface PatientService {
     public void deletePatient(String patientNo);
     public Page<PatientResponseDTO> searchPatients(String searchString, int page, int size);
 
+    public PatientResponseDTO getPatientByUsername(String username);
 }

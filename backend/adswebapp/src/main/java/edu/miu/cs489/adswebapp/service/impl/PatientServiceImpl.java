@@ -88,4 +88,15 @@ public class PatientServiceImpl implements PatientService {
         return patientRepository.findAllBySearchString(searchString, PageRequest.of(page,size))
                 .map(patientMapper::patientToPatientResponseDTO);
     }
+
+    @Override
+    public PatientResponseDTO getPatientByUsername(String username) {
+        Optional<Patient> patient = patientRepository.findByUsername(username);
+        if(patient.isPresent()) {
+            return patientMapper.patientToPatientResponseDTO(patient.get());
+        } else {
+            throw new PatientNotFoundException(String.format("No patient found with username: %s", username));
+        }
+    }
+
 }

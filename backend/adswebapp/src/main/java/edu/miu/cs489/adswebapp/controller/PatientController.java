@@ -14,7 +14,6 @@ public class PatientController {
 
     private final PatientService patientService;
 
-
     @GetMapping
     public ResponseEntity<List<Object>> getAllPatients() {
         return ResponseEntity.ok(List.of());

@@ -14,6 +14,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @DiscriminatorValue("PATIENT")

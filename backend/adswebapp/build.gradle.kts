@@ -45,7 +45,11 @@ dependencies {
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.6")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("com.h2database:h2")
+
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+
 }
 
 tasks.withType<Test> {
