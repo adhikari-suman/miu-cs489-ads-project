@@ -155,6 +155,7 @@ public class DataInitializer {
             appointment1.setPatient(p100);
             appointment1.setDentist(tony);
             appointment1.setSurgery(s15);
+            appointment1.setAppointmentId("APPT-1");
             appointment1.setAppointmentDateTime(parseLocalDate("12-Sep-13 10:00", formatter));
             appointment1.setAppointmentStatus(AppointmentStatus.SCHEDULED);
             Bill bill1 = new Bill();
@@ -167,6 +168,7 @@ public class DataInitializer {
             appointment2.setPatient(p105);
             appointment2.setDentist(tony);
             appointment2.setSurgery(s15);
+            appointment2.setAppointmentId("APPT-2");
             appointment2.setAppointmentDateTime(parseLocalDate("12-Sep-13 12:00", formatter));
             appointment2.setAppointmentStatus(AppointmentStatus.COMPLETED);
             Bill bill2 = new Bill();
@@ -179,6 +181,7 @@ public class DataInitializer {
             appointment3.setPatient(p108);
             appointment3.setDentist(helen);
             appointment3.setSurgery(s10);
+            appointment3.setAppointmentId("APPT-3");
             appointment3.setAppointmentDateTime(parseLocalDate("12-Sep-13 10:00", formatter));
             appointment3.setAppointmentStatus(AppointmentStatus.COMPLETED);
             Bill bill3 = new Bill();
@@ -191,6 +194,7 @@ public class DataInitializer {
             appointment4.setPatient(p108);
             appointment4.setDentist(helen);
             appointment4.setSurgery(s10);
+            appointment4.setAppointmentId("APPT-4");
             appointment4.setAppointmentDateTime(parseLocalDate("14-Sep-13 14:00", formatter));
             appointment4.setAppointmentStatus(AppointmentStatus.CANCELLED);
             Bill bill4 = new Bill();
@@ -203,6 +207,7 @@ public class DataInitializer {
             appointment5.setPatient(p105);
             appointment5.setDentist(robin);
             appointment5.setSurgery(s15);
+            appointment5.setAppointmentId("APPT-5");
             appointment5.setAppointmentDateTime(parseLocalDate("14-Sep-13 16:30", formatter));
             appointment5.setAppointmentStatus(AppointmentStatus.SCHEDULED);
             Bill bill5 = new Bill();
@@ -215,6 +220,7 @@ public class DataInitializer {
             appointment6.setPatient(p110);
             appointment6.setDentist(robin);
             appointment6.setSurgery(s13);
+            appointment6.setAppointmentId("APPT-6");
             appointment6.setAppointmentDateTime(parseLocalDate("15-Sep-13 18:00", formatter));
             appointment6.setAppointmentStatus(AppointmentStatus.COMPLETED);
             Bill bill6 = new Bill();

@@ -16,9 +16,15 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Appointment {
+    public static final String APPOINTMENT_ID_PREFIX = "APPT-";
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @Column(name = "appointment_id", unique = true, nullable = false, length = 100)
+    private String appointmentId;
 
     @ManyToOne
     @JoinColumn(name = "patient_id", nullable = false)
