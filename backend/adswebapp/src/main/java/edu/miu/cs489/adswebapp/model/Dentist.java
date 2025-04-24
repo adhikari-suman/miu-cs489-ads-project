@@ -15,6 +15,11 @@ import java.util.List;
 @AllArgsConstructor
 @DiscriminatorValue("DENTIST")
 public class Dentist extends User {
+    public static final String DENTIST_ID_PREFIX = "DENT-";
+
+    @Column(name = "dentist_id", unique = true, nullable = false, length = 100)
+    private String dentistId;
+
     @Column(name = "specialization", nullable = false, length = 100)
     private String specialization;
 
