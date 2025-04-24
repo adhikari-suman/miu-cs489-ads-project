@@ -52,17 +52,4 @@ public class DentistController {
                                  dentistId +
                                  " completed or cancelled.");
     }
-
-    @PostMapping("/{patientNo}/appointments/{appointmentId}/pay")
-    public ResponseEntity<Object> payForAppointmentForPatientByPatientNo(
-            @PathVariable("patientNo") String patientNo,
-            @PathVariable("appointmentId")
-            String appointmentId
-                                                                        ) {
-        return ResponseEntity.ok(
-                String.format(
-                        "Payment for appointment Id: %s for patient %s is completed successfully.", appointmentId,
-                        patientNo
-                             ));
-    }
 }
