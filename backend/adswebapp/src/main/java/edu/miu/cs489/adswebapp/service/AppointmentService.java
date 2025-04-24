@@ -9,8 +9,6 @@ import java.util.List;
 
 public interface AppointmentService {
     Appointment addAppointment(Appointment appointment);
-    List<Appointment> getAllAppointments();
-
 
     Page<AppointmentResponseDTO> getAppointments(
             int page,
@@ -18,4 +16,8 @@ public interface AppointmentService {
             String sortBy,
             String sortDirection
                                                 );
+
+    AppointmentResponseDTO getAppointmentByAppointmentId(String appointmentId);
+
+    void scheduleAppointmentForDentist(String appointmentId, String dentistId);
 }
