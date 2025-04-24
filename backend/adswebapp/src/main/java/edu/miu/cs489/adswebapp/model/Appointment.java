@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -31,8 +33,7 @@ public class Appointment {
     private Surgery surgery;
 
     @Column(name = "appointment_date_time", nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date appointmentDateTime;
+    private LocalDateTime appointmentDateTime;
 
 
     @Enumerated(EnumType.STRING)

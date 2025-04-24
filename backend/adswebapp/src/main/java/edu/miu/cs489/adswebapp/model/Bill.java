@@ -25,6 +25,7 @@ public class Bill {
     @Column(name = "amount", nullable = false)
     private BigDecimal amount;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "bill_status", nullable = false)
-    private int billStatus = 0;
+    private BillStatus billStatus;
 }
