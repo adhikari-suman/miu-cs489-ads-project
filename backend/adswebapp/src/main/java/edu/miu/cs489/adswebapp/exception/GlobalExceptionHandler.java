@@ -5,6 +5,7 @@ import edu.miu.cs489.adswebapp.exception.appointment.InvalidAppointmentStateExce
 import edu.miu.cs489.adswebapp.exception.dentist.DentistNotFoundException;
 import edu.miu.cs489.adswebapp.exception.patient.DuplicatePatientFoundException;
 import edu.miu.cs489.adswebapp.exception.patient.PatientNotFoundException;
+import edu.miu.cs489.adswebapp.exception.surgery.SurgeryNotFoundException;
 import edu.miu.cs489.adswebapp.security.exception.user.InvalidCredentialsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -88,6 +89,16 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(DentistNotFoundException.class)
     public ResponseEntity<ApiError> handleDentistNotFoundException(DentistNotFoundException e) {
+        ApiError apiError = new ApiError(
+                HttpStatus.NOT_FOUND.value(),
+                e.getMessage(), null
+        );
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiError);
+    }
+
+    @ExceptionHandler(SurgeryNotFoundException.class)
+    public ResponseEntity<ApiError> handleSurgeryNotFoundException(SurgeryNotFoundException e) {
         ApiError apiError = new ApiError(
                 HttpStatus.NOT_FOUND.value(),
                 e.getMessage(), null
