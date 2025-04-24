@@ -17,6 +17,14 @@ public interface AppointmentService {
             String sortDirection
                                                 );
 
+    Page<AppointmentResponseDTO> getAppointmentsForSurgeryBySurgeryNo(
+            String surgeryNo,
+            int page,
+            int size,
+            String sortBy,
+            String sortDirection
+                                                );
+
     AppointmentResponseDTO getAppointmentByAppointmentId(String appointmentId);
 
     void scheduleAppointmentForDentist(String appointmentId, String dentistId);
