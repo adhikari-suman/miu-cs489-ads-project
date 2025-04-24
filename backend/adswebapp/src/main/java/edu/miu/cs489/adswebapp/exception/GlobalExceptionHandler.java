@@ -1,5 +1,8 @@
 package edu.miu.cs489.adswebapp.exception;
 
+import edu.miu.cs489.adswebapp.exception.appointment.AppointmentNotFoundException;
+import edu.miu.cs489.adswebapp.exception.appointment.InvalidAppointmentStateException;
+import edu.miu.cs489.adswebapp.exception.dentist.DentistNotFoundException;
 import edu.miu.cs489.adswebapp.exception.patient.DuplicatePatientFoundException;
 import edu.miu.cs489.adswebapp.exception.patient.PatientNotFoundException;
 import edu.miu.cs489.adswebapp.security.exception.user.InvalidCredentialsException;
@@ -61,6 +64,36 @@ public class GlobalExceptionHandler {
         );
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(apiError);
+    }
+
+    @ExceptionHandler(AppointmentNotFoundException.class)
+    public ResponseEntity<ApiError> handleAppointmentNotFoundException(AppointmentNotFoundException e) {
+        ApiError apiError = new ApiError(
+                HttpStatus.NOT_FOUND.value(),
+                e.getMessage(), null
+        );
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiError);
+    }
+
+    @ExceptionHandler(InvalidAppointmentStateException.class)
+    public ResponseEntity<ApiError> handleInvalidAppointmentStateException(InvalidAppointmentStateException e) {
+        ApiError apiError = new ApiError(
+                HttpStatus.BAD_REQUEST.value(),
+                e.getMessage(), null
+        );
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
+    }
+
+    @ExceptionHandler(DentistNotFoundException.class)
+    public ResponseEntity<ApiError> handleDentistNotFoundException(DentistNotFoundException e) {
+        ApiError apiError = new ApiError(
+                HttpStatus.NOT_FOUND.value(),
+                e.getMessage(), null
+        );
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiError);
     }
 
 }
