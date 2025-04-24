@@ -14,6 +14,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.math.BigDecimal;
 import java.sql.SQLOutput;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Date;
 
 @Configuration
@@ -41,7 +45,7 @@ public class DataInitializer {
                 return;
             }
 
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yy HH:mm");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MMM-yy HH:mm");
 
             // Addresses
             Address address1 = new Address(null, "123 Main St, Springfield");
@@ -151,72 +155,72 @@ public class DataInitializer {
             appointment1.setPatient(p100);
             appointment1.setDentist(tony);
             appointment1.setSurgery(s15);
-            appointment1.setAppointmentDateTime(parseDate("12-Sep-13 10:00", dateFormat));
+            appointment1.setAppointmentDateTime(parseLocalDate("12-Sep-13 10:00", formatter));
             appointment1.setAppointmentStatus(AppointmentStatus.SCHEDULED);
             Bill bill1 = new Bill();
             bill1.setAppointment(appointment1);
             bill1.setAmount(BigDecimal.valueOf(100.00));
-            bill1.setBillStatus(0);
+            bill1.setBillStatus(BillStatus.PENDING);
             appointment1.setBill(bill1);
 
             Appointment appointment2 = new Appointment();
             appointment2.setPatient(p105);
             appointment2.setDentist(tony);
             appointment2.setSurgery(s15);
-            appointment2.setAppointmentDateTime(parseDate("12-Sep-13 12:00", dateFormat));
+            appointment2.setAppointmentDateTime(parseLocalDate("12-Sep-13 12:00", formatter));
             appointment2.setAppointmentStatus(AppointmentStatus.COMPLETED);
             Bill bill2 = new Bill();
             bill2.setAppointment(appointment2);
             bill2.setAmount(BigDecimal.valueOf(150.00));
-            bill2.setBillStatus(0);
+            bill2.setBillStatus(BillStatus.PAID);
             appointment2.setBill(bill2);
 
             Appointment appointment3 = new Appointment();
             appointment3.setPatient(p108);
             appointment3.setDentist(helen);
             appointment3.setSurgery(s10);
-            appointment3.setAppointmentDateTime(parseDate("12-Sep-13 10:00", dateFormat));
+            appointment3.setAppointmentDateTime(parseLocalDate("12-Sep-13 10:00", formatter));
             appointment3.setAppointmentStatus(AppointmentStatus.COMPLETED);
             Bill bill3 = new Bill();
             bill3.setAppointment(appointment3);
             bill3.setAmount(BigDecimal.valueOf(200.00));
-            bill3.setBillStatus(0);
+            bill3.setBillStatus(BillStatus.PAID);
             appointment3.setBill(bill3);
 
             Appointment appointment4 = new Appointment();
             appointment4.setPatient(p108);
             appointment4.setDentist(helen);
             appointment4.setSurgery(s10);
-            appointment4.setAppointmentDateTime(parseDate("14-Sep-13 14:00", dateFormat));
+            appointment4.setAppointmentDateTime(parseLocalDate("14-Sep-13 14:00", formatter));
             appointment4.setAppointmentStatus(AppointmentStatus.CANCELLED);
             Bill bill4 = new Bill();
             bill4.setAppointment(appointment4);
             bill4.setAmount(BigDecimal.valueOf(250.00));
-            bill4.setBillStatus(0);
+            bill4.setBillStatus(BillStatus.PAID);
             appointment4.setBill(bill4);
 
             Appointment appointment5 = new Appointment();
             appointment5.setPatient(p105);
             appointment5.setDentist(robin);
             appointment5.setSurgery(s15);
-            appointment5.setAppointmentDateTime(parseDate("14-Sep-13 16:30", dateFormat));
+            appointment5.setAppointmentDateTime(parseLocalDate("14-Sep-13 16:30", formatter));
             appointment5.setAppointmentStatus(AppointmentStatus.SCHEDULED);
             Bill bill5 = new Bill();
             bill5.setAppointment(appointment5);
             bill5.setAmount(BigDecimal.valueOf(300.00));
-            bill5.setBillStatus(0);
+            bill5.setBillStatus(BillStatus.PENDING);
             appointment5.setBill(bill5);
 
             Appointment appointment6 = new Appointment();
             appointment6.setPatient(p110);
             appointment6.setDentist(robin);
             appointment6.setSurgery(s13);
-            appointment6.setAppointmentDateTime(parseDate("15-Sep-13 18:00", dateFormat));
+            appointment6.setAppointmentDateTime(parseLocalDate("15-Sep-13 18:00", formatter));
             appointment6.setAppointmentStatus(AppointmentStatus.COMPLETED);
             Bill bill6 = new Bill();
             bill6.setAppointment(appointment6);
             bill6.setAmount(BigDecimal.valueOf(350.00));
-            bill6.setBillStatus(0);
+            bill6.setBillStatus(BillStatus.PAID);
             appointment6.setBill(bill6);
 
             // Save appointments and bills
@@ -241,10 +245,10 @@ public class DataInitializer {
         };
     }
 
-    private Date parseDate(String dateStr, SimpleDateFormat dateFormat) {
+    private LocalDateTime parseLocalDate(String dateStr, DateTimeFormatter formatter) {
         try {
-            return dateFormat.parse(dateStr);
-        } catch (Exception e) {
+            return LocalDateTime.parse(dateStr, formatter);
+        } catch (DateTimeParseException e) {
             throw new RuntimeException("Invalid date: " + dateStr, e);
         }
     }
