@@ -68,6 +68,7 @@ public class DataInitializer {
             tony.setFirstName("Tony");
             tony.setLastName("Smith");
             tony.setUsername("tsmith");
+            tony.setDentistId("DENT-1");
             tony.setPassword(passwordEncoder.encode("pwd"));
             tony.setPhoneNumber("123-456");
             tony.setEmail("tony@dental.com");
@@ -79,6 +80,7 @@ public class DataInitializer {
             helen.setFirstName("Helen");
             helen.setLastName("Pearson");
             helen.setUsername("hpearson");
+            helen.setDentistId("DENT-2");
             helen.setPassword(passwordEncoder.encode("pwd"));
             helen.setPhoneNumber("123-457");
             helen.setEmail("helen@dental.com");
@@ -90,6 +92,7 @@ public class DataInitializer {
             robin.setFirstName("Robin");
             robin.setLastName("Plevin");
             robin.setUsername("rplevin");
+            robin.setDentistId("DENT-3");
             robin.setPassword(passwordEncoder.encode("pwd"));
             robin.setPhoneNumber("123-458");
             robin.setEmail("robin@dental.com");
@@ -237,6 +240,29 @@ public class DataInitializer {
             appointmentRepository.save(appointment5);
             appointmentRepository.save(appointment6);
 
+            // Add 5 appointments for Tony (Scheduled or Completed)
+            appointmentRepository.save(createAppointment("APPT-7", formatter, "21-Apr-25 10:00", AppointmentStatus.SCHEDULED, tony, p100, s15, BigDecimal.valueOf(100.00), BillStatus.PENDING));
+            appointmentRepository.save(createAppointment("APPT-8", formatter, "21-Apr-25 14:00", AppointmentStatus.SCHEDULED, tony, p100, s15, BigDecimal.valueOf(120.00), BillStatus.PENDING));
+            appointmentRepository.save(createAppointment("APPT-9", formatter, "22-Apr-25 10:00", AppointmentStatus.COMPLETED, tony, p100, s15, BigDecimal.valueOf(130.00), BillStatus.PAID));
+            appointmentRepository.save(createAppointment("APPT-10", formatter, "22-Apr-25 14:00", AppointmentStatus.COMPLETED, tony, p100, s15, BigDecimal.valueOf(140.00), BillStatus.PAID));
+            appointmentRepository.save(createAppointment("APPT-11", formatter, "23-Apr-25 10:00", AppointmentStatus.COMPLETED, tony, p100, s15, BigDecimal.valueOf(150.00), BillStatus.PAID));
+
+            // Add 5 appointments for Helen (Scheduled or Completed)
+            appointmentRepository.save(createAppointment("APPT-12", formatter, "23-Apr-25 14:00", AppointmentStatus.SCHEDULED, helen, p105, s10, BigDecimal.valueOf(110.00), BillStatus.PENDING));
+            appointmentRepository.save(createAppointment("APPT-13", formatter, "24-Apr-25 10:00", AppointmentStatus.SCHEDULED, helen, p105, s10, BigDecimal.valueOf(115.00), BillStatus.PENDING));
+            appointmentRepository.save(createAppointment("APPT-14", formatter, "24-Apr-25 14:00", AppointmentStatus.SCHEDULED, helen, p105, s10, BigDecimal.valueOf(125.00), BillStatus.PENDING));
+            appointmentRepository.save(createAppointment("APPT-15", formatter, "25-Apr-25 10:00", AppointmentStatus.COMPLETED, helen, p105, s10, BigDecimal.valueOf(135.00), BillStatus.PAID));
+            appointmentRepository.save(createAppointment("APPT-16", formatter, "25-Apr-25 14:00", AppointmentStatus.COMPLETED, helen, p105, s10, BigDecimal.valueOf(145.00), BillStatus.PAID));
+
+            // Add 2 appointments for Robin (1 scheduled, 1 completed)
+            appointmentRepository.save(createAppointment("APPT-17", formatter, "21-Apr-25 12:00", AppointmentStatus.SCHEDULED, robin, p108, s13, BigDecimal.valueOf(155.00), BillStatus.PENDING));
+            appointmentRepository.save(createAppointment("APPT-18", formatter, "22-Apr-25 12:00", AppointmentStatus.COMPLETED, robin, p108, s13, BigDecimal.valueOf(165.00), BillStatus.PAID));
+
+            // Remaining appointments as pending, no dentist assigned
+            appointmentRepository.save(createAppointment("APPT-19", formatter, "23-Apr-25 12:00", AppointmentStatus.PENDING, null, p110, s13, BigDecimal.ZERO, BillStatus.PENDING));
+            appointmentRepository.save(createAppointment("APPT-20", formatter, "24-Apr-25 12:00", AppointmentStatus.PENDING, null, p110, s13, BigDecimal.ZERO, BillStatus.PENDING));
+
+
             // Office Admin
             OfficeManager officeManager = new OfficeManager();
 
@@ -257,5 +283,25 @@ public class DataInitializer {
         } catch (DateTimeParseException e) {
             throw new RuntimeException("Invalid date: " + dateStr, e);
         }
+    }
+
+    private Appointment createAppointment(String id, DateTimeFormatter formatter, String dateTimeStr,
+                                          AppointmentStatus status, Dentist dentist, Patient patient,
+                                          Surgery surgery, BigDecimal amount, BillStatus billStatus) {
+        Appointment appointment = new Appointment();
+        appointment.setAppointmentId(id);
+        appointment.setAppointmentDateTime(parseLocalDate(dateTimeStr, formatter));
+        appointment.setAppointmentStatus(status);
+        appointment.setDentist(dentist);
+        appointment.setPatient(patient);
+        appointment.setSurgery(surgery);
+
+        Bill bill = new Bill();
+        bill.setAmount(amount);
+        bill.setBillStatus(billStatus);
+        bill.setAppointment(appointment);
+
+        appointment.setBill(bill);
+        return appointment;
     }
 }
