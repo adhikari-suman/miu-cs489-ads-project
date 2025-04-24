@@ -58,9 +58,9 @@ public class DataInitializer {
 
 
             // Surgeries
-            Surgery s10 = surgeryRepository.save(new Surgery(null, "S10", address1, "111-111-1111", null));
-            Surgery s13 = surgeryRepository.save(new Surgery(null, "S13", address2, "222-222-2222", null));
-            Surgery s15 = surgeryRepository.save(new Surgery(null, "S15", address3, "333-333-3333", null));
+            Surgery s10 = surgeryRepository.save(new Surgery(null, "SURG-10", address1, "111-111-1111", null));
+            Surgery s13 = surgeryRepository.save(new Surgery(null, "SURG-13", address2, "222-222-2222", null));
+            Surgery s15 = surgeryRepository.save(new Surgery(null, "SURG-15", address3, "333-333-3333", null));
 
 
             // Dentists
