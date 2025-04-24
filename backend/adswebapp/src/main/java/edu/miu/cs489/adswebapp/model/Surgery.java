@@ -14,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Surgery {
+    public static final String SURGERY_ID_PREFIX = "SURG-";
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
