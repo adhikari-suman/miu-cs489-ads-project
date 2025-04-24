@@ -1,6 +1,5 @@
 package edu.miu.cs489.adswebapp.security.configuration;
 
-import edu.miu.cs489.adswebapp.respository.UserRepository;
 import edu.miu.cs489.adswebapp.security.filter.JwtFilter;
 import edu.miu.cs489.adswebapp.security.model.Role;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +10,6 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.CorsConfigurer;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
@@ -43,19 +41,27 @@ public class SecurityConfiguration implements WebMvcConfigurer {
                                                                          .authenticated()
                                                                          .requestMatchers("/api/v1/auth/*")
                                                                          .permitAll()
-                                                                         .requestMatchers(
-                                                                                 HttpMethod.DELETE,
-                                                                                 "/api/v1/patients/{patientId}"
-                                                                                         )
-                                                                         .hasRole(Role.OFFICE_ADMIN.name())
-                                                                         .requestMatchers(
-                                                                                 "/api/v1/patients/**",
-                                                                                 "/api/v1/addresses/**"
-                                                                                         )
+                                                                         .requestMatchers("/api/v1/patients/**")
                                                                          .hasAnyRole(
                                                                                  Role.PATIENT.name(),
                                                                                  Role.OFFICE_ADMIN.name(),
                                                                                  Role.DENTIST.name()
+                                                                                    )
+                                                                         .requestMatchers(
+                                                                                 HttpMethod.POST,
+                                                                                 "/api/v1/doctors"
+                                                                                         )
+                                                                         .hasRole(Role.OFFICE_ADMIN.name())
+                                                                         .requestMatchers("/api/v1/doctors/**")
+                                                                         .hasAnyRole(
+                                                                                 Role.OFFICE_ADMIN.name(),
+                                                                                 Role.DENTIST.name()
+                                                                                    )
+                                                                         .requestMatchers("/api/v1/appointments/**")
+                                                                         .hasAnyRole(
+                                                                                 Role.OFFICE_ADMIN.name(),
+                                                                                 Role.DENTIST.name(),
+                                                                                 Role.PATIENT.name()
                                                                                     )
                                                                          .anyRequest()
                                                                          .authenticated())
