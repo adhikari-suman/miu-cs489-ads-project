@@ -1,8 +1,8 @@
 package edu.miu.cs489.adswebapp.mapper;
 
-import edu.miu.cs489.adswebapp.dto.request.PatientRequestDTO;
 import edu.miu.cs489.adswebapp.dto.response.PatientResponseDTO;
 import edu.miu.cs489.adswebapp.model.Patient;
+import edu.miu.cs489.adswebapp.security.dto.request.PatientRegistrationRequestDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
@@ -15,5 +15,5 @@ public interface PatientMapper {
     PatientResponseDTO patientToPatientResponseDTO(Patient patient);
 
     @Mapping(source="address", target = "address")
-    Patient patientRequestDTOtoPatient(PatientRequestDTO patientRequestDTO);
+    Patient patientRegistrationRequestDTOToPatient(PatientRegistrationRequestDTO patientRegistrationRequestDTO);
 }

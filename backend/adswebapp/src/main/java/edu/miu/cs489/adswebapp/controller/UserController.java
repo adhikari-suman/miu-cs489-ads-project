@@ -1,9 +1,11 @@
 package edu.miu.cs489.adswebapp.controller;
 
+import edu.miu.cs489.adswebapp.dto.response.DentistResponseDTO;
 import edu.miu.cs489.adswebapp.dto.response.PatientResponseDTO;
 import edu.miu.cs489.adswebapp.dto.response.UserResponseDTO;
 import edu.miu.cs489.adswebapp.security.dto.request.CredentialUpdateRequestDTO;
 import edu.miu.cs489.adswebapp.security.service.AuthenticationService;
+import edu.miu.cs489.adswebapp.service.DentistService;
 import edu.miu.cs489.adswebapp.service.PatientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final PatientService patientService;
     private final AuthenticationService authenticationService;
+    private final DentistService dentistService;
 
     @PreAuthorize("#username == authentication.name")
     @GetMapping("/{username}")
@@ -45,5 +48,15 @@ public class UserController {
         PatientResponseDTO patientResponseDTO = patientService.getPatientByUsername(username);
 
         return ResponseEntity.ok(patientResponseDTO);
+    }
+
+    @PreAuthorize("#username == authentication.name")
+    @GetMapping("/{username}/dentist-detail")
+    public ResponseEntity<DentistResponseDTO> getDentistDetailByUsername(
+            @PathVariable("username") String username
+                                                                        ){
+        DentistResponseDTO dentistResponseDTO = dentistService.getDentistByUsername(username);
+
+        return ResponseEntity.ok(dentistResponseDTO);
     }
 }

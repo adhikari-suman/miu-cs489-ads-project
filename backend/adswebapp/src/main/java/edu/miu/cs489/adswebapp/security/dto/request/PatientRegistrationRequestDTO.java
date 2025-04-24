@@ -18,7 +18,10 @@ public record PatientRegistrationRequestDTO(
         String username,
 
         @NotBlank(message = "Password is required")
-        @Size(min = 8, message = "Password must be at least 8 characters long")
+        @Pattern(
+                regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$",
+                message = "Password must be minimum 8 characters, at least one letter and one number"
+        )
         String password,
 
         @NotBlank(message = "Phone number is required")
@@ -28,8 +31,7 @@ public record PatientRegistrationRequestDTO(
         @NotBlank(message = "Email is required")
         @Email(message = "Email should be valid")
         String email,
-        @NotBlank(message = "Patient number is required")
-        String patientNo,
+
         @NotNull(message = "Date of birth is required")
         @Past(message = "Date of birth must be in the past")
         LocalDate dateOfBirth,

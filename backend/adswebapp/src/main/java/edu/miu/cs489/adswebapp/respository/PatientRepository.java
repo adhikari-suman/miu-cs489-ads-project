@@ -24,4 +24,6 @@ public interface PatientRepository extends JpaRepository<Patient, Integer> {
        OR LOWER(p.phoneNumber) LIKE LOWER(CONCAT('%', :search, '%'))
 """)
     Page<Patient> findAllBySearchString(@Param("search") String search, Pageable pageable);
+
+    Optional<Patient> findTopByOrderByIdDesc();
 }

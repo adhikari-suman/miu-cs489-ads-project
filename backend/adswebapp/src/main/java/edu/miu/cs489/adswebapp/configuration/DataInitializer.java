@@ -55,6 +55,8 @@ public class DataInitializer {
             Address address5 = new Address(null, "456 Elm St, Springfield");
             Address address6 = new Address(null, "789 Oak St, Springfield");
             Address address7 = new Address(null, "123 Main St, Springfield");
+            Address address8 = new Address(null, "456 Elm St, Springfield");
+            Address address9 = new Address(null, "789 Oak St, Springfield");
 
 
             // Surgeries
@@ -109,7 +111,7 @@ public class DataInitializer {
             p100.setPassword(passwordEncoder.encode("pwd"));
             p100.setPhoneNumber("321-456");
             p100.setEmail("gillian@patients.com");
-            p100.setDateOfBirth(new Date(90, 1, 1)); // Feb 1, 1990
+            p100.setDateOfBirth(parseLocalDate("01-Feb-90 10:00", formatter).toLocalDate()); // Feb 1, 1990
             p100.setAddress(address4);
             p100.setRole(Role.PATIENT);
             patientRepository.save(p100);
@@ -122,8 +124,8 @@ public class DataInitializer {
             p105.setPassword(passwordEncoder.encode("pwd"));
             p105.setPhoneNumber("321-457");
             p105.setEmail("jill@patients.com");
-            p105.setDateOfBirth(new Date(88, 5, 20)); // Jun 20, 1988
-            p105.setAddress(address5);
+            p105.setDateOfBirth(parseLocalDate("20-May-88 10:00", formatter).toLocalDate()); // Jun 20, 1988
+            p105.setAddress(address8);
             p105.setRole(Role.PATIENT);
             patientRepository.save(p105);
 
@@ -135,7 +137,7 @@ public class DataInitializer {
             p108.setPassword(passwordEncoder.encode("pwd"));
             p108.setPhoneNumber("321-458");
             p108.setEmail("ian@patients.com");
-            p108.setDateOfBirth(new Date(85, 10, 11)); // Nov 11, 1985
+            p108.setDateOfBirth(parseLocalDate("11-Nov-85 10:00", formatter).toLocalDate()); // Nov 11, 1985
             p108.setAddress(address6);
             p108.setRole(Role.PATIENT);
             patientRepository.save(p108);
@@ -148,7 +150,7 @@ public class DataInitializer {
             p110.setPassword(passwordEncoder.encode("pwd"));
             p110.setPhoneNumber("321-459");
             p110.setEmail("john@patients.com");
-            p110.setDateOfBirth(new Date(87, 3, 14)); // Apr 14, 1987
+            p110.setDateOfBirth(parseLocalDate("14-Apr-87 10:00", formatter).toLocalDate()); // Apr 14, 1987
             p110.setAddress(address7);
             p110.setRole(Role.PATIENT);
             patientRepository.save(p110);
@@ -161,7 +163,7 @@ public class DataInitializer {
             p115.setPassword(passwordEncoder.encode("pwd"));
             p115.setPhoneNumber("321-460");
             p115.setEmail("alice@patients.com");
-            p115.setDateOfBirth(new Date(95, 5, 15)); // May 15, 1995
+            p115.setDateOfBirth(parseLocalDate("15-May-95 10:00", formatter).toLocalDate()); // May 15, 1995
             p115.setAddress(address5);
             p115.setRole(Role.PATIENT);
             patientRepository.save(p115);
@@ -174,8 +176,9 @@ public class DataInitializer {
             p120.setPassword(passwordEncoder.encode("pwd"));
             p120.setPhoneNumber("321-461");
             p120.setEmail("bob@patients.com");
-            p120.setDateOfBirth(new Date(90, 7, 10)); // Jul 10, 1990
-            p120.setAddress(address6);
+            p120.setDateOfBirth(
+                                parseLocalDate("10-Jul-90 10:00", formatter).toLocalDate()); // Jul 10, 1990
+            p120.setAddress(address9);
             p120.setRole(Role.PATIENT);
             patientRepository.save(p120);
 

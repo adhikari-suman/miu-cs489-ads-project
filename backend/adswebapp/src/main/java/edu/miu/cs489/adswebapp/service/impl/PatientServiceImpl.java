@@ -6,13 +6,18 @@ import edu.miu.cs489.adswebapp.exception.patient.DuplicatePatientFoundException;
 import edu.miu.cs489.adswebapp.exception.patient.PatientNotFoundException;
 import edu.miu.cs489.adswebapp.mapper.PatientMapper;
 import edu.miu.cs489.adswebapp.model.Patient;
+import edu.miu.cs489.adswebapp.model.Patient;
 import edu.miu.cs489.adswebapp.respository.PatientRepository;
+import edu.miu.cs489.adswebapp.respository.UserRepository;
+import edu.miu.cs489.adswebapp.security.exception.user.DuplicateUserFieldException;
+import edu.miu.cs489.adswebapp.security.model.Role;
 import edu.miu.cs489.adswebapp.service.PatientService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,6 +30,8 @@ public class PatientServiceImpl implements PatientService {
 
     private final PatientRepository patientRepository;
     private final PatientMapper     patientMapper;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public Page<PatientResponseDTO> getAllPatients(int page, int size, String sortBy, String sortDirection) {
@@ -45,34 +52,57 @@ public class PatientServiceImpl implements PatientService {
 
     }
 
-    @Override
-    public PatientResponseDTO addPatient(PatientRequestDTO patientRequestDTO) {
-        String patientNo = patientRequestDTO.patientNo();
+//    @Override
+//    public PatientResponseDTO addPatient(PatientRequestDTO patientRequestDTO) {
+//        Patient patient = patientMapper.patientRequestDTOtoPatient(patientRequestDTO);
+//        userRepository.findByEmail(patient.getEmail()).ifPresent((a) -> {
+//            throw new DuplicateUserFieldException(String.format("Email %s already exists", patient.getEmail()));
+//        });
+//
+//        userRepository.findByUsername(patient.getUsername()).ifPresent((a) -> {
+//            throw new DuplicateUserFieldException(String.format("Username %s already exists", patient.getUsername()));
+//        });
+//
+//        String nextPatientNo = null;
+//
+//        Optional<Patient> optionalPatient = patientRepository.findTopByOrderByIdDesc();
+//
+//        if(optionalPatient.isPresent()){
+//            Patient topPatient = optionalPatient.get();
+//
+//            String currentPatientId =
+//                    topPatient.getPatientNo().split(Patient.PATIENT_ID_PREFIX)[1];
+//
+//            nextPatientNo =
+//                    Patient.PATIENT_ID_PREFIX + (Integer.parseInt(currentPatientId) + 1);
+//        } else {
+//            nextPatientNo =
+//                    Patient.PATIENT_ID_PREFIX + 1;
+//        }
+//
+//
+//        patient.setPassword(passwordEncoder.encode(patient.getPassword()));
+//        patient.setPatientNo(nextPatientNo);
+//        patient.setRole(Role.PATIENT);
+//
+//        Patient savedPatient = patientRepository.save(patient);
+//
+//        return patientMapper.patientToPatientResponseDTO(savedPatient);
+//    }
 
-        patientRepository.findByPatientNoEqualsIgnoreCase(patientNo).ifPresent((a) -> {
-            throw new DuplicatePatientFoundException(
-                    String.format("A patient with patient no " + "%s " + "already exists.", patientNo));
-        });
-
-        Patient newPatient = patientMapper.patientRequestDTOtoPatient(patientRequestDTO);
-        Patient savedPatient = patientRepository.save(newPatient);
-
-        return patientMapper.patientToPatientResponseDTO(savedPatient);
-    }
-
-    @Override
-    public PatientResponseDTO updatePatient(String patientNo, PatientRequestDTO patientRequestDTO) {
-        Patient patient = patientRepository.findByPatientNoEqualsIgnoreCase(patientNo)
-                                           .orElseThrow(() -> new PatientNotFoundException(
-                                                   String.format("No patient found with patient no: %s", patientNo)));
-
-        Patient updatedPatient = patientMapper.patientRequestDTOtoPatient(patientRequestDTO);
-        updatedPatient.setPatientNo(patient.getPatientNo());
-        updatedPatient.setId(patient.getId());
-
-       Patient savedPatient = patientRepository.save(updatedPatient);
-       return patientMapper.patientToPatientResponseDTO(savedPatient);
-    }
+//    @Override
+//    public PatientResponseDTO updatePatient(String patientNo, PatientRequestDTO patientRequestDTO) {
+//        Patient patient = patientRepository.findByPatientNoEqualsIgnoreCase(patientNo)
+//                                           .orElseThrow(() -> new PatientNotFoundException(
+//                                                   String.format("No patient found with patient no: %s", patientNo)));
+//
+//        Patient updatedPatient = patientMapper.patientRequestDTOtoPatient(patientRequestDTO);
+//        updatedPatient.setPatientNo(patient.getPatientNo());
+//        updatedPatient.setId(patient.getId());
+//
+//       Patient savedPatient = patientRepository.save(updatedPatient);
+//       return patientMapper.patientToPatientResponseDTO(savedPatient);
+//    }
 
     @Override
     public void deletePatient(String patientNo) {

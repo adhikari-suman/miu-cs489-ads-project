@@ -9,4 +9,6 @@ public interface DentistRepository extends JpaRepository<Dentist, Integer> {
     Optional<Dentist> findByUsername(String username);
 
     Optional<Dentist> findByDentistId(String dentistId);
+
+    Optional<Dentist> findTopByOrderByIdDesc();
 }

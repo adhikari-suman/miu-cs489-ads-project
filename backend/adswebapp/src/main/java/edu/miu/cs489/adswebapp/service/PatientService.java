@@ -10,8 +10,8 @@ import java.util.List;
 public interface PatientService {
     public Page<PatientResponseDTO> getAllPatients(int page, int size, String sortBy, String sortDirection);
     public PatientResponseDTO  getPatientByPatientNo(String patientNo);
-    public PatientResponseDTO addPatient(PatientRequestDTO patient);
-    public PatientResponseDTO updatePatient(String patientNo, PatientRequestDTO patient);
+//    public PatientResponseDTO addPatient(PatientRequestDTO patient);
+//    public PatientResponseDTO updatePatient(String patientNo, PatientRequestDTO patient);
     public void deletePatient(String patientNo);
     public Page<PatientResponseDTO> searchPatients(String searchString, int page, int size);
 

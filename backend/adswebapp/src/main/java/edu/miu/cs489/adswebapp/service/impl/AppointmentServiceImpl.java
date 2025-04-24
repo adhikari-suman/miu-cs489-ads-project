@@ -2,7 +2,6 @@ package edu.miu.cs489.adswebapp.service.impl;
 
 
 import edu.miu.cs489.adswebapp.dto.request.PatientRequestAppointmentRequestDTO;
-import edu.miu.cs489.adswebapp.dto.response.AddressResponseDTO;
 import edu.miu.cs489.adswebapp.dto.response.AppointmentResponseDTO;
 import edu.miu.cs489.adswebapp.exception.address.AddressNotFoundException;
 import edu.miu.cs489.adswebapp.exception.appointment.AppointmentNotFoundException;
@@ -64,7 +63,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public void scheduleAppointmentForDentist(String appointmentId, String dentistId) {
+    public void scheduleAppointmentForDentist(String appointmentId, String dentistId, BigDecimal billAmount) {
         // Find the appointment by appointment id
         Appointment appointment = appointmentRepository.findByAppointmentId(appointmentId)
                                                        .orElseThrow(
@@ -103,6 +102,10 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         appointment.setDentist(dentist);
         appointment.setAppointmentStatus(AppointmentStatus.SCHEDULED);
+
+        appointment.getBill().setAmount(billAmount);
+        appointment.getBill().setBillStatus(BillStatus.PENDING);
+
         appointmentRepository.save(appointment);
     }
 
@@ -276,5 +279,82 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         appointment.getBill().setBillStatus(BillStatus.PAID);
         appointmentRepository.save(appointment);
+    }
+
+    @Override
+    public Page<AppointmentResponseDTO> getAppointmentsForDentistByDentistId(
+            String dentistId,
+            int page,
+            int size,
+            String sortBy,
+            String order
+                                                                            ) {
+
+        Dentist dentist = dentistRepository.findByDentistId(dentistId)
+                                           .orElseThrow(() -> new DentistNotFoundException(
+                                                   String.format("No dentist found with dentist id: %s", dentistId)));
+
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(order), sortBy));
+
+        return appointmentRepository.findByDentistId(dentist.getId(), pageRequest)
+                                    .map(appointmentMapper::appointmentToAppointmentResponseDTO);
+    }
+
+    @Override
+    public AppointmentResponseDTO getAppointmentByAppointmentIdAndDentistId(String appointmentId, String dentistId) {
+        Dentist dentist = dentistRepository.findByDentistId(dentistId)
+                                           .orElseThrow(() -> new DentistNotFoundException(
+                                                   String.format("No dentist found with dentist id: %s", dentistId)));
+
+        Appointment appointment = appointmentRepository.findByAppointmentId(appointmentId)
+                                                       .orElseThrow(
+                                                               () -> new AppointmentNotFoundException(String.format(
+                                                                       "No appointment found with appointment id: %s",
+                                                                       appointmentId
+                                                                                                                   )));
+
+        if (appointment.getDentist() == null || !appointment.getDentist().getId().equals(dentist.getId())) {
+            throw new InvalidAppointmentStateException(String.format(
+                    "Appointment with appointment id: %s is not for dentist with dentist id: %s", appointmentId,
+                    dentistId
+                                                                    ));
+        }
+
+        return appointmentMapper.appointmentToAppointmentResponseDTO(appointment);
+    }
+
+    @Override
+    public AppointmentResponseDTO updateAppointStatusForDentistByDentistIdAndAppointmentId(
+            String dentistId,
+            String appointmentId,
+            AppointmentStatus appointmentStatus
+                                                                                          ) {
+        Dentist dentist = dentistRepository.findByDentistId(dentistId)
+                                           .orElseThrow(() -> new DentistNotFoundException(
+                                                   String.format("No dentist found with dentist id: %s", dentistId)));
+
+        Appointment appointment = appointmentRepository.findByAppointmentId(appointmentId)
+                                                       .orElseThrow(
+                                                               () -> new AppointmentNotFoundException(String.format(
+                                                                       "No appointment found with appointment id: %s",
+                                                                       appointmentId
+                                                                                                                   )));
+        if (appointment.getDentist() == null || !appointment.getDentist().getId().equals(dentist.getId())) {
+            throw new InvalidAppointmentStateException(String.format(
+                    "Appointment with appointment id: %s is not for dentist with dentist id: %s", appointmentId,
+                    dentistId
+                                                                    ));
+        }
+
+        if(appointment.getAppointmentStatus() != AppointmentStatus.SCHEDULED){
+            throw new InvalidAppointmentStateException(String.format("Appointment with appointment id: %s is not in " +
+                                                                     "SCHEDULED state", appointment.getAppointmentId()));
+        }
+
+        appointment.setAppointmentStatus(appointmentStatus);
+        Appointment savedAppointment = appointmentRepository.save(appointment);
+
+        return appointmentMapper.appointmentToAppointmentResponseDTO(savedAppointment);
+
     }
 }
