@@ -102,7 +102,7 @@ public class DataInitializer {
 
             // Patients
             Patient p100 = new Patient();
-            p100.setPatientNo("P100");
+            p100.setPatientNo("PAT-100");
             p100.setFirstName("Gillian");
             p100.setLastName("White");
             p100.setUsername("gwhite");
@@ -115,7 +115,7 @@ public class DataInitializer {
             patientRepository.save(p100);
 
             Patient p105 = new Patient();
-            p105.setPatientNo("P105");
+            p105.setPatientNo("PAT-105");
             p105.setFirstName("Jill");
             p105.setLastName("Bell");
             p105.setUsername("jbell");
@@ -128,7 +128,7 @@ public class DataInitializer {
             patientRepository.save(p105);
 
             Patient p108 = new Patient();
-            p108.setPatientNo("P108");
+            p108.setPatientNo("PAT-108");
             p108.setFirstName("Ian");
             p108.setLastName("MacKay");
             p108.setUsername("imackay");
@@ -141,7 +141,7 @@ public class DataInitializer {
             patientRepository.save(p108);
 
             Patient p110 = new Patient();
-            p110.setPatientNo("P110");
+            p110.setPatientNo("PAT-110");
             p110.setFirstName("John");
             p110.setLastName("Walker");
             p110.setUsername("jwalker");
@@ -152,6 +152,32 @@ public class DataInitializer {
             p110.setAddress(address7);
             p110.setRole(Role.PATIENT);
             patientRepository.save(p110);
+
+            Patient p115 = new Patient();
+            p115.setPatientNo("PAT-115");
+            p115.setFirstName("Alice");
+            p115.setLastName("Johnson");
+            p115.setUsername("ajohnson");
+            p115.setPassword(passwordEncoder.encode("pwd"));
+            p115.setPhoneNumber("321-460");
+            p115.setEmail("alice@patients.com");
+            p115.setDateOfBirth(new Date(95, 5, 15)); // May 15, 1995
+            p115.setAddress(address5);
+            p115.setRole(Role.PATIENT);
+            patientRepository.save(p115);
+
+            Patient p120 = new Patient();
+            p120.setPatientNo("PAT-120");
+            p120.setFirstName("Bob");
+            p120.setLastName("Williams");
+            p120.setUsername("bwilliams");
+            p120.setPassword(passwordEncoder.encode("pwd"));
+            p120.setPhoneNumber("321-461");
+            p120.setEmail("bob@patients.com");
+            p120.setDateOfBirth(new Date(90, 7, 10)); // Jul 10, 1990
+            p120.setAddress(address6);
+            p120.setRole(Role.PATIENT);
+            patientRepository.save(p120);
 
 //            // Create Appointments and Bills using no-args constructor
             Appointment appointment1 = new Appointment();
@@ -232,6 +258,36 @@ public class DataInitializer {
             bill6.setBillStatus(BillStatus.PAID);
             appointment6.setBill(bill6);
 
+            Appointment appointment7 = new Appointment();
+            appointment7.setPatient(p115);
+            appointment7.setDentist(tony); // Assign the dentist for this appointment
+            appointment7.setSurgery(s13); // Surgery for the appointment
+            appointment7.setAppointmentId("APPT-21");
+            appointment7.setAppointmentDateTime(parseLocalDate("25-Apr-25 10:00", formatter));
+            appointment7.setAppointmentStatus(AppointmentStatus.COMPLETED);
+            Bill bill7 = new Bill();
+            bill7.setAppointment(appointment7);
+            bill7.setAmount(BigDecimal.valueOf(200.00));
+            bill7.setBillStatus(BillStatus.PAID); // Bill is paid
+            appointment7.setBill(bill7);
+
+            // Save appointment and bill
+
+            Appointment appointment8 = new Appointment();
+            appointment8.setPatient(p120);
+            appointment8.setDentist(helen); // Assign the dentist for this appointment
+            appointment8.setSurgery(s15); // Surgery for the appointment
+            appointment8.setAppointmentId("APPT-22");
+            appointment8.setAppointmentDateTime(parseLocalDate("26-Apr-25 14:00", formatter));
+            appointment8.setAppointmentStatus(AppointmentStatus.COMPLETED);
+            Bill bill8 = new Bill();
+            bill8.setAppointment(appointment8);
+            bill8.setAmount(BigDecimal.valueOf(250.00));
+            bill8.setBillStatus(BillStatus.PAID); // Bill is paid
+            appointment8.setBill(bill8);
+
+             // Save appointment and bill
+
             // Save appointments and bills
             appointmentRepository.save(appointment1);
             appointmentRepository.save(appointment2);
@@ -239,6 +295,8 @@ public class DataInitializer {
             appointmentRepository.save(appointment4);
             appointmentRepository.save(appointment5);
             appointmentRepository.save(appointment6);
+            appointmentRepository.save(appointment7);
+            appointmentRepository.save(appointment8);
 
             // Add 5 appointments for Tony (Scheduled or Completed)
             appointmentRepository.save(createAppointment("APPT-7", formatter, "21-Apr-25 10:00", AppointmentStatus.SCHEDULED, tony, p100, s15, BigDecimal.valueOf(100.00), BillStatus.PENDING));

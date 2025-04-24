@@ -19,6 +19,8 @@ import java.util.Objects;
 @AllArgsConstructor
 @DiscriminatorValue("PATIENT")
 public class Patient extends User {
+    public static final String PATIENT_ID_PREFIX = "PAT-";
+
     @Column(name = "patient_no", unique = true, nullable = false, length = 10)
     private String patientNo;
 

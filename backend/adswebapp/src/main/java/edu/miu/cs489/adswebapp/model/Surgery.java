@@ -22,7 +22,7 @@ public class Surgery {
     @Column(name = "surgery_no", unique = true, nullable = false, length = 100)
     private String surgeryNo;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "address_id", nullable = false)
     private Address address;
 
