@@ -63,20 +63,6 @@ public class PatientController {
         return ResponseEntity.ok(appointmentResponseDTO);
     }
 
-
-    @PatchMapping("/{patientNo}/appointments/{appointmentId}")
-    public ResponseEntity<Object> makeAppointmentForPatientByPatientNo(
-            @PathVariable("patientNo") String patientNo,
-            @PathVariable("appointmentId")
-            String appointmentId
-                                                                      ) {
-        return ResponseEntity.ok("Appointment with appointment id: " +
-                                 appointmentId +
-                                 " for patient with patient no: " +
-                                 patientNo +
-                                 " cancelled.");
-    }
-
     @PostMapping("/{patientNo}/appointments/{appointmentId}/pay")
     public ResponseEntity<Void> payForAppointmentForPatientByPatientNo(
             @PathVariable("patientNo") String patientNo,
