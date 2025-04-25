@@ -261,7 +261,7 @@ public class DataInitializer {
             appointment7.setPatient(p115);
             appointment7.setDentist(tony); // Assign the dentist for this appointment
             appointment7.setSurgery(s13); // Surgery for the appointment
-            appointment7.setAppointmentId("APPT-21");
+            appointment7.setAppointmentId("APPT-7");
             appointment7.setAppointmentDateTime(parseLocalDate("25-Apr-25 10:00", formatter));
             appointment7.setAppointmentStatus(AppointmentStatus.COMPLETED);
             Bill bill7 = new Bill();
@@ -276,7 +276,7 @@ public class DataInitializer {
             appointment8.setPatient(p120);
             appointment8.setDentist(helen); // Assign the dentist for this appointment
             appointment8.setSurgery(s15); // Surgery for the appointment
-            appointment8.setAppointmentId("APPT-22");
+            appointment8.setAppointmentId("APPT-8");
             appointment8.setAppointmentDateTime(parseLocalDate("26-Apr-25 14:00", formatter));
             appointment8.setAppointmentStatus(AppointmentStatus.COMPLETED);
             Bill bill8 = new Bill();
@@ -298,26 +298,40 @@ public class DataInitializer {
             appointmentRepository.save(appointment8);
 
             // Add 5 appointments for Tony (Scheduled or Completed)
-            appointmentRepository.save(createAppointment("APPT-7", formatter, "21-Apr-25 10:00", AppointmentStatus.SCHEDULED, tony, p100, s15, BigDecimal.valueOf(100.00), BillStatus.PENDING));
-            appointmentRepository.save(createAppointment("APPT-8", formatter, "21-Apr-25 14:00", AppointmentStatus.SCHEDULED, tony, p100, s15, BigDecimal.valueOf(120.00), BillStatus.PENDING));
-            appointmentRepository.save(createAppointment("APPT-9", formatter, "22-Apr-25 10:00", AppointmentStatus.COMPLETED, tony, p100, s15, BigDecimal.valueOf(130.00), BillStatus.PAID));
-            appointmentRepository.save(createAppointment("APPT-10", formatter, "22-Apr-25 14:00", AppointmentStatus.COMPLETED, tony, p100, s15, BigDecimal.valueOf(140.00), BillStatus.PAID));
-            appointmentRepository.save(createAppointment("APPT-11", formatter, "23-Apr-25 10:00", AppointmentStatus.COMPLETED, tony, p100, s15, BigDecimal.valueOf(150.00), BillStatus.PAID));
+            appointmentRepository.save(createAppointment("APPT-9", formatter, "21-Apr-25 10:00",
+                                                         AppointmentStatus.SCHEDULED, tony, p100, s15, BigDecimal.valueOf(100.00), BillStatus.PENDING));
+            appointmentRepository.save(createAppointment("APPT-10", formatter, "21-Apr-25 14:00",
+                                                         AppointmentStatus.SCHEDULED, tony, p100, s15, BigDecimal.valueOf(120.00), BillStatus.PENDING));
+            appointmentRepository.save(createAppointment("APPT-11", formatter, "22-Apr-25 10:00",
+                                                         AppointmentStatus.COMPLETED, tony, p100, s15, BigDecimal.valueOf(130.00), BillStatus.PAID));
+            appointmentRepository.save(createAppointment("APPT-12", formatter, "22-Apr-25 14:00",
+                                                         AppointmentStatus.COMPLETED, tony, p100, s15, BigDecimal.valueOf(140.00), BillStatus.PAID));
+            appointmentRepository.save(createAppointment("APPT-13", formatter, "23-Apr-25 10:00",
+                                                         AppointmentStatus.COMPLETED, tony, p100, s15, BigDecimal.valueOf(150.00), BillStatus.PAID));
 
             // Add 5 appointments for Helen (Scheduled or Completed)
-            appointmentRepository.save(createAppointment("APPT-12", formatter, "23-Apr-25 14:00", AppointmentStatus.SCHEDULED, helen, p105, s10, BigDecimal.valueOf(110.00), BillStatus.PENDING));
-            appointmentRepository.save(createAppointment("APPT-13", formatter, "24-Apr-25 10:00", AppointmentStatus.SCHEDULED, helen, p105, s10, BigDecimal.valueOf(115.00), BillStatus.PENDING));
-            appointmentRepository.save(createAppointment("APPT-14", formatter, "24-Apr-25 14:00", AppointmentStatus.SCHEDULED, helen, p105, s10, BigDecimal.valueOf(125.00), BillStatus.PENDING));
-            appointmentRepository.save(createAppointment("APPT-15", formatter, "25-Apr-25 10:00", AppointmentStatus.COMPLETED, helen, p105, s10, BigDecimal.valueOf(135.00), BillStatus.PAID));
-            appointmentRepository.save(createAppointment("APPT-16", formatter, "25-Apr-25 14:00", AppointmentStatus.COMPLETED, helen, p105, s10, BigDecimal.valueOf(145.00), BillStatus.PAID));
+            appointmentRepository.save(createAppointment("APPT-14", formatter, "23-Apr-25 14:00",
+                                                         AppointmentStatus.SCHEDULED, helen, p105, s10, BigDecimal.valueOf(110.00), BillStatus.PENDING));
+            appointmentRepository.save(createAppointment("APPT-15", formatter, "24-Apr-25 10:00",
+                                                         AppointmentStatus.SCHEDULED, helen, p105, s10, BigDecimal.valueOf(115.00), BillStatus.PENDING));
+            appointmentRepository.save(createAppointment("APPT-16", formatter, "24-Apr-25 14:00",
+                                                         AppointmentStatus.SCHEDULED, helen, p105, s10, BigDecimal.valueOf(125.00), BillStatus.PENDING));
+            appointmentRepository.save(createAppointment("APPT-17", formatter, "25-Apr-25 10:00",
+                                                         AppointmentStatus.COMPLETED, helen, p105, s10, BigDecimal.valueOf(135.00), BillStatus.PAID));
+            appointmentRepository.save(createAppointment("APPT-18", formatter, "25-Apr-25 14:00",
+                                                         AppointmentStatus.COMPLETED, helen, p105, s10, BigDecimal.valueOf(145.00), BillStatus.PAID));
 
             // Add 2 appointments for Robin (1 scheduled, 1 completed)
-            appointmentRepository.save(createAppointment("APPT-17", formatter, "21-Apr-25 12:00", AppointmentStatus.SCHEDULED, robin, p108, s13, BigDecimal.valueOf(155.00), BillStatus.PENDING));
-            appointmentRepository.save(createAppointment("APPT-18", formatter, "22-Apr-25 12:00", AppointmentStatus.COMPLETED, robin, p108, s13, BigDecimal.valueOf(165.00), BillStatus.PAID));
+            appointmentRepository.save(createAppointment("APPT-19", formatter, "21-Apr-25 12:00",
+                                                         AppointmentStatus.SCHEDULED, robin, p108, s13, BigDecimal.valueOf(155.00), BillStatus.PENDING));
+            appointmentRepository.save(createAppointment("APPT-20", formatter, "22-Apr-25 12:00",
+                                                         AppointmentStatus.COMPLETED, robin, p108, s13, BigDecimal.valueOf(165.00), BillStatus.PAID));
 
             // Remaining appointments as pending, no dentist assigned
-            appointmentRepository.save(createAppointment("APPT-19", formatter, "23-Apr-25 12:00", AppointmentStatus.PENDING, null, p110, s13, BigDecimal.ZERO, BillStatus.PENDING));
-            appointmentRepository.save(createAppointment("APPT-20", formatter, "24-Apr-25 12:00", AppointmentStatus.PENDING, null, p110, s13, BigDecimal.ZERO, BillStatus.PENDING));
+            appointmentRepository.save(createAppointment("APPT-21", formatter, "23-Apr-25 12:00",
+                                                         AppointmentStatus.PENDING, null, p110, s13, BigDecimal.ZERO, BillStatus.PENDING));
+            appointmentRepository.save(createAppointment("APPT-22", formatter, "24-Apr-25 12:00",
+                                                         AppointmentStatus.PENDING, null, p110, s13, BigDecimal.ZERO, BillStatus.PENDING));
 
 
             // Office Admin
