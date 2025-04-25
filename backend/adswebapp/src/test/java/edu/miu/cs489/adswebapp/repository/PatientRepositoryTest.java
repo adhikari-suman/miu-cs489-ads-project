@@ -1,4 +1,4 @@
-package edu.miu.cs489.adswebapp.respository;
+package edu.miu.cs489.adswebapp.repository;
 
 import edu.miu.cs489.adswebapp.model.Address;
 import edu.miu.cs489.adswebapp.model.Patient;
