@@ -89,7 +89,7 @@ This is a web-based software solution designed to manage the operations of Advan
 
 #### System Analysis & Design
 
-- **Domain Model Class Diagram**: (To be included)
+- **Domain Model Class Diagram**:
 
   - This diagram illustrates the structure of the system, showing the relationships between classes such as `Dentist`, `Patient`, `Appointment`, `Surgery`, and `OfficeManager`.
 
