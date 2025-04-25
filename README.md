@@ -87,6 +87,10 @@ This is a web-based software solution designed to manage the operations of Advan
 4. **Usability**:
    - The system should have a user-friendly interface for both patients and office managers to easily navigate and perform actions like registering, booking appointments, and viewing schedules.
 
+#### System Architecture
+
+<img src="./diagram/ads-system-architecture.png" />
+
 #### System Analysis & Design
 
 - **Domain Model Class Diagram**:
