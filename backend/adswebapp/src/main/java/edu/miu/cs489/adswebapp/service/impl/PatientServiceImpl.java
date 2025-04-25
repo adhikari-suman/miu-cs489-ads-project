@@ -98,20 +98,20 @@ public class PatientServiceImpl implements PatientService {
 //       return patientMapper.patientToPatientResponseDTO(savedPatient);
 //    }
 
-    @Override
-    public void deletePatient(String patientNo) {
-        Patient patient = patientRepository.findByPatientNoEqualsIgnoreCase(patientNo)
-                                           .orElseThrow(() -> new PatientNotFoundException(
-                                                   String.format("No patient found with patient no: %s", patientNo)));
+//    @Override
+//    public void deletePatient(String patientNo) {
+//        Patient patient = patientRepository.findByPatientNoEqualsIgnoreCase(patientNo)
+//                                           .orElseThrow(() -> new PatientNotFoundException(
+//                                                   String.format("No patient found with patient no: %s", patientNo)));
+//
+//        patientRepository.delete(patient);
+//    }
 
-        patientRepository.delete(patient);
-    }
-
-    @Override
-    public Page<PatientResponseDTO> searchPatients(String searchString, int page, int size) {
-        return patientRepository.findAllBySearchString(searchString, PageRequest.of(page,size))
-                .map(patientMapper::patientToPatientResponseDTO);
-    }
+//    @Override
+//    public Page<PatientResponseDTO> searchPatients(String searchString, int page, int size) {
+//        return patientRepository.findAllBySearchString(searchString, PageRequest.of(page,size))
+//                .map(patientMapper::patientToPatientResponseDTO);
+//    }
 
     @Override
     public PatientResponseDTO getPatientByUsername(String username) {

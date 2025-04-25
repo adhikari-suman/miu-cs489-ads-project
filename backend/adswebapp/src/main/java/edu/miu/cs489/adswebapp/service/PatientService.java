@@ -12,8 +12,8 @@ public interface PatientService {
     public PatientResponseDTO  getPatientByPatientNo(String patientNo);
 //    public PatientResponseDTO addPatient(PatientRequestDTO patient);
 //    public PatientResponseDTO updatePatient(String patientNo, PatientRequestDTO patient);
-    public void deletePatient(String patientNo);
-    public Page<PatientResponseDTO> searchPatients(String searchString, int page, int size);
+//    public void deletePatient(String patientNo);
+//    public Page<PatientResponseDTO> searchPatients(String searchString, int page, int size);
 
     public PatientResponseDTO getPatientByUsername(String username);
 }
