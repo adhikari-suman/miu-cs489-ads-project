@@ -39,7 +39,7 @@ public class AppointmentController {
     }
 
     @PatchMapping("/{appointmentId}/dentists/{dentistId}")
-    public ResponseEntity<Object> assignADoctorToAppointmentWithAppointmentId(
+    public ResponseEntity<Void> assignADoctorToAppointmentWithAppointmentId(
             @PathVariable("appointmentId") String appointmentId,
             @PathVariable("dentistId") String dentistId,
             @Validated
