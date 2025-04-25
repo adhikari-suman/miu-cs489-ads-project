@@ -123,7 +123,24 @@ This is a web-based software solution designed to manage the operations of Advan
 
 ## 2. Dummy Data to work with
 
-### Appointment Details
+### 2.1 User Table
+
+Below is the list of users, their respective IDs, usernames, and passwords:
+
+| User Type        | ID Field | Username  | Password |
+| ---------------- | -------- | --------- | -------- |
+| **Dentist**      | DENT-1   | tsmith    | pwd      |
+| **Dentist**      | DENT-2   | hpearson  | pwd      |
+| **Dentist**      | DENT-3   | rplevin   | pwd      |
+| **Patient**      | PAT-100  | gwhite    | pwd      |
+| **Patient**      | PAT-105  | jbell     | pwd      |
+| **Patient**      | PAT-108  | imackay   | pwd      |
+| **Patient**      | PAT-110  | jwalker   | pwd      |
+| **Patient**      | PAT-115  | ajohnson  | pwd      |
+| **Patient**      | PAT-120  | bwilliams | pwd      |
+| **Office Admin** | -        | admin     | admin    |
+
+### 2.2 Appointment Details
 
 #### Patients with Pending and Paid Bills
 
