@@ -3,85 +3,130 @@ package edu.miu.cs489.adswebapp.service.impl;
 import edu.miu.cs489.adswebapp.dto.response.AddressResponseDTO;
 import edu.miu.cs489.adswebapp.dto.response.PatientResponseDTO;
 import edu.miu.cs489.adswebapp.exception.patient.PatientNotFoundException;
-import edu.miu.cs489.adswebapp.mapper.AddressMapper;
 import edu.miu.cs489.adswebapp.mapper.PatientMapper;
 import edu.miu.cs489.adswebapp.model.Address;
 import edu.miu.cs489.adswebapp.model.Patient;
-import edu.miu.cs489.adswebapp.respository.PatientRepository;
-import edu.miu.cs489.adswebapp.security.model.Role;
+import edu.miu.cs489.adswebapp.repository.PatientRepository;
+import edu.miu.cs489.adswebapp.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mapstruct.factory.Mappers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.data.domain.*;
 
-import java.util.Date;
+import java.util.Collections;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class PatientServiceImplTest {
 
-    @Mock private PatientRepository patientRepository;
+    @Mock
+    private PatientRepository patientRepository;
 
-    @InjectMocks private PatientServiceImpl patientService;
+    @Mock
+    private PatientMapper patientMapper;
 
-    @Mock private PatientMapper patientMapper;
+    @Mock
+    private UserRepository userRepository;
 
+    @InjectMocks
+    private PatientServiceImpl patientService;
+
+    private Patient patient;
     private PatientResponseDTO patientResponseDTO;
-    private Patient            patient;
 
     @BeforeEach
     void setUp() {
-        Address address = new Address(901, "123 Main St, Springfield");
+        AddressResponseDTO addressResponseDTO = new AddressResponseDTO(1, "123 Main St");
+        patientResponseDTO = new PatientResponseDTO("PAT-001", "John", "Doe", addressResponseDTO);
 
         patient = new Patient();
-        patient.setId(900);
-        patient.setPatientNo("P110");
+        patient.setPatientNo("PAT-001");
         patient.setFirstName("John");
-        patient.setLastName("Walker");
-        patient.setUsername("jwalker");
-        patient.setPassword("pwd");
-        patient.setPhoneNumber("321-459");
-        patient.setEmail("john@patients.com");
-        patient.setDateOfBirth(new Date(87, 3, 14)); // Apr 14, 1987
-        patient.setAddress(address);
-        patient.setRole(Role.PATIENT);
-
-        patientResponseDTO = new PatientResponseDTO(
-                patient.getPatientNo(), patient.getFirstName(), patient.getLastName(),
-                new AddressResponseDTO(patient.getAddress().getId(), patient.getAddress().getLocation())
-        );
+        patient.setLastName("Doe");
+        patient.setAddress(new Address(1, "123 Main St"));
     }
 
     @Test
-    @DisplayName("Patient should be found by username")
-    void givenUsername_whenFindByUsername_thenReturnPatientResponseDTO() {
-        // given
-        Mockito.when(patientRepository.findByUsername(patient.getUsername()))
-               .thenReturn(java.util.Optional.of(patient));
-        Mockito.when(patientMapper.patientToPatientResponseDTO(patient)).thenReturn(patientResponseDTO);
-        // when
-        PatientResponseDTO foundPatientDTO = patientService.getPatientByUsername(patient.getUsername());
+    @DisplayName("Given valid page request, when getAllPatients is called, then it should return paginated list of patients")
+    void givenValidPageRequest_whenGetAllPatients_thenReturnsPaginatedList() {
+        // Given
+        PageRequest pageRequest = PageRequest.of(0, 10, Sort.by(Sort.Direction.ASC, "patientNo"));
+        Page<Patient> page = new PageImpl<>(Collections.singletonList(patient));
 
-        // then
-        assertEquals(patientResponseDTO, foundPatientDTO, "Patient not found");
-        assertEquals(patientResponseDTO.firstName(), foundPatientDTO.firstName(), "Patient first name does not match");
-        assertEquals(patientResponseDTO.patientNo(), foundPatientDTO.patientNo(), "Patient No. does not match");
+        when(patientRepository.findAll(pageRequest)).thenReturn(page);
+        when(patientMapper.patientToPatientResponseDTO(patient)).thenReturn(patientResponseDTO);
+
+        // When
+        Page<PatientResponseDTO> result = patientService.getAllPatients(0, 10, "patientNo", "ASC");
+
+        // Then
+        assertEquals(1, result.getTotalElements());
+        assertEquals("PAT-001", result.getContent().get(0).patientNo());
+        verify(patientRepository).findAll(pageRequest);
     }
 
     @Test
-    @DisplayName("Patient should not be found by username")
-    void givenUsername_whenFindByUsername_thenThrowPatientNotFoundException() {
+    @DisplayName("Given valid patientNo, when getPatientByPatientNo is called, then it should return patient response")
+    void givenValidPatientNo_whenGetPatientByPatientNo_thenReturnsPatientResponse() {
+        // Given
+        when(patientRepository.findByPatientNoEqualsIgnoreCase("PAT-001")).thenReturn(Optional.of(patient));
+        when(patientMapper.patientToPatientResponseDTO(patient)).thenReturn(patientResponseDTO);
+
+        // When
+        PatientResponseDTO result = patientService.getPatientByPatientNo("PAT-001");
+
+        // Then
+        assertNotNull(result);
+        assertEquals("PAT-001", result.patientNo());
+        verify(patientRepository).findByPatientNoEqualsIgnoreCase("PAT-001");
+    }
+
+    @Test
+    @DisplayName("Given invalid patientNo, when getPatientByPatientNo is called, then it should throw PatientNotFoundException")
+    void givenInvalidPatientNo_whenGetPatientByPatientNo_thenThrowsPatientNotFoundException() {
+        // Given
+        when(patientRepository.findByPatientNoEqualsIgnoreCase("PAT-999")).thenReturn(Optional.empty());
+
+        // When / Then
         assertThrows(
-                PatientNotFoundException.class, () -> patientService.getPatientByUsername(patient.getUsername()),
-                "Patient should not be found by username: " + patient.getUsername() + " "
-                    );
+                PatientNotFoundException.class,
+                () -> patientService.getPatientByPatientNo("PAT-999"));
+        verify(patientRepository).findByPatientNoEqualsIgnoreCase("PAT-999");
+    }
+
+    @Test
+    @DisplayName("Given valid username, when getPatientByUsername is called, then it should return patient response")
+    void givenValidUsername_whenGetPatientByUsername_thenReturnsPatientResponse() {
+        // Given
+        when(patientRepository.findByUsername("johndoe")).thenReturn(Optional.of(patient));
+        when(patientMapper.patientToPatientResponseDTO(patient)).thenReturn(patientResponseDTO);
+
+        // When
+        PatientResponseDTO result = patientService.getPatientByUsername("johndoe");
+
+        // Then
+        assertNotNull(result);
+        assertEquals("PAT-001", result.patientNo());
+        verify(patientRepository).findByUsername("johndoe");
+    }
+
+    @Test
+    @DisplayName("Given invalid username, when getPatientByUsername is called, then it should throw PatientNotFoundException")
+    void givenInvalidUsername_whenGetPatientByUsername_thenThrowsPatientNotFoundException() {
+        // Given
+        when(patientRepository.findByUsername("invaliduser")).thenReturn(Optional.empty());
+
+        // When / Then
+        assertThrows(
+                PatientNotFoundException.class,
+                () -> patientService.getPatientByUsername("invaliduser"));
+        verify(patientRepository).findByUsername("invaliduser");
     }
 }
