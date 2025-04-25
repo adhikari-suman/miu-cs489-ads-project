@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  api:
+    container_name: ads-web-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/adsDB
+      SPRING_DATASOURCE_USERNAME: user1
+      SPRING_DATASOURCE_PASSWORD: user1
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_DATABASE_PLATFORM: org.hibernate.dialect.PostgreSQLDialect
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres
+    container_name: ads-db
+    environment:
+      POSTGRES_USER: user1
+      POSTGRES_PASSWORD: user1
+      POSTGRES_DB: adsDB
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-h", "localhost", "-p", "5432", "-U", "user1"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 5s
