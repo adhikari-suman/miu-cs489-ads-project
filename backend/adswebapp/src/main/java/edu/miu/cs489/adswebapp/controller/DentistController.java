@@ -33,7 +33,7 @@ public class DentistController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> addADentist(@RequestBody @Validated DentistRequestDTO dentistRequestDTO) {
+    public ResponseEntity<DentistResponseDTO> addADentist(@RequestBody @Validated DentistRequestDTO dentistRequestDTO) {
         DentistResponseDTO dentistResponseDTO = dentistService.addADentist(dentistRequestDTO);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(dentistResponseDTO);
