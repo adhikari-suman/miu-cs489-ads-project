@@ -1,16 +1,11 @@
 package edu.miu.cs489.adswebapp.service.impl;
 
-import edu.miu.cs489.adswebapp.dto.request.PatientRequestDTO;
 import edu.miu.cs489.adswebapp.dto.response.PatientResponseDTO;
-import edu.miu.cs489.adswebapp.exception.patient.DuplicatePatientFoundException;
 import edu.miu.cs489.adswebapp.exception.patient.PatientNotFoundException;
 import edu.miu.cs489.adswebapp.mapper.PatientMapper;
 import edu.miu.cs489.adswebapp.model.Patient;
-import edu.miu.cs489.adswebapp.model.Patient;
-import edu.miu.cs489.adswebapp.respository.PatientRepository;
-import edu.miu.cs489.adswebapp.respository.UserRepository;
-import edu.miu.cs489.adswebapp.security.exception.user.DuplicateUserFieldException;
-import edu.miu.cs489.adswebapp.security.model.Role;
+import edu.miu.cs489.adswebapp.repository.PatientRepository;
+import edu.miu.cs489.adswebapp.repository.UserRepository;
 import edu.miu.cs489.adswebapp.service.PatientService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +15,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service

@@ -1,6 +1,5 @@
-package edu.miu.cs489.adswebapp.respository;
+package edu.miu.cs489.adswebapp.repository;
 
-import edu.miu.cs489.adswebapp.model.Dentist;
 import edu.miu.cs489.adswebapp.model.Patient;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

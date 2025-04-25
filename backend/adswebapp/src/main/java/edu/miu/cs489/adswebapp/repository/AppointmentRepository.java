@@ -1,10 +1,8 @@
-package edu.miu.cs489.adswebapp.respository;
+package edu.miu.cs489.adswebapp.repository;
 
-import aj.org.objectweb.asm.commons.Remapper;
 import edu.miu.cs489.adswebapp.model.Appointment;
 import edu.miu.cs489.adswebapp.model.AppointmentStatus;
 import edu.miu.cs489.adswebapp.model.BillStatus;
-import edu.miu.cs489.adswebapp.model.Patient;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -13,7 +11,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 public interface AppointmentRepository extends JpaRepository<Appointment, Integer> {

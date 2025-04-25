@@ -1,7 +1,7 @@
 package edu.miu.cs489.adswebapp.configuration;
 
 import edu.miu.cs489.adswebapp.model.*;
-import edu.miu.cs489.adswebapp.respository.*;
+import edu.miu.cs489.adswebapp.repository.*;
 import edu.miu.cs489.adswebapp.security.model.Role;
 import edu.miu.cs489.adswebapp.service.AppointmentService;
 import jakarta.transaction.Transactional;
@@ -12,13 +12,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.math.BigDecimal;
-import java.sql.SQLOutput;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Date;
 
 @Configuration
 @RequiredArgsConstructor

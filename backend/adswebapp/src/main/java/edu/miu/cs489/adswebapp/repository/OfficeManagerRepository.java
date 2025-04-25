@@ -1,7 +1,6 @@
-package edu.miu.cs489.adswebapp.respository;
+package edu.miu.cs489.adswebapp.repository;
 
 import edu.miu.cs489.adswebapp.model.OfficeManager;
-import edu.miu.cs489.adswebapp.model.Patient;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

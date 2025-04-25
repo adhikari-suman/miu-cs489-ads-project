@@ -1,6 +1,6 @@
 package edu.miu.cs489.adswebapp.security.configuration;
 
-import edu.miu.cs489.adswebapp.respository.UserRepository;
+import edu.miu.cs489.adswebapp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

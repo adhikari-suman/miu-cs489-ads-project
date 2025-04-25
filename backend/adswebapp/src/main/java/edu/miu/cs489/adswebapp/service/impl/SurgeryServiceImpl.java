@@ -4,7 +4,7 @@ import edu.miu.cs489.adswebapp.dto.response.SurgeryResponseDTO;
 import edu.miu.cs489.adswebapp.exception.surgery.SurgeryNotFoundException;
 import edu.miu.cs489.adswebapp.mapper.SurgeryMapper;
 import edu.miu.cs489.adswebapp.model.Surgery;
-import edu.miu.cs489.adswebapp.respository.SurgeryRepository;
+import edu.miu.cs489.adswebapp.repository.SurgeryRepository;
 import edu.miu.cs489.adswebapp.service.SurgeryService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

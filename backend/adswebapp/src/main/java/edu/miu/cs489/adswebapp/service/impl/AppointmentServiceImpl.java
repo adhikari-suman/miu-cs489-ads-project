@@ -11,7 +11,7 @@ import edu.miu.cs489.adswebapp.exception.patient.PatientNotFoundException;
 import edu.miu.cs489.adswebapp.exception.surgery.SurgeryNotFoundException;
 import edu.miu.cs489.adswebapp.mapper.AppointmentMapper;
 import edu.miu.cs489.adswebapp.model.*;
-import edu.miu.cs489.adswebapp.respository.*;
+import edu.miu.cs489.adswebapp.repository.*;
 import edu.miu.cs489.adswebapp.service.AppointmentService;
 import edu.miu.cs489.adswebapp.util.WeekRangeUtil;
 import jakarta.transaction.Transactional;

@@ -1,12 +1,11 @@
 package edu.miu.cs489.adswebapp.security.service.impl;
 
 import edu.miu.cs489.adswebapp.dto.response.UserResponseDTO;
-import edu.miu.cs489.adswebapp.exception.patient.DuplicatePatientFoundException;
 import edu.miu.cs489.adswebapp.mapper.PatientMapper;
 import edu.miu.cs489.adswebapp.mapper.UserMapper;
 import edu.miu.cs489.adswebapp.model.Patient;
-import edu.miu.cs489.adswebapp.respository.PatientRepository;
-import edu.miu.cs489.adswebapp.respository.UserRepository;
+import edu.miu.cs489.adswebapp.repository.PatientRepository;
+import edu.miu.cs489.adswebapp.repository.UserRepository;
 import edu.miu.cs489.adswebapp.security.dto.request.AuthenticationRequestDTO;
 import edu.miu.cs489.adswebapp.security.dto.request.CredentialUpdateRequestDTO;
 import edu.miu.cs489.adswebapp.security.dto.request.PatientRegistrationRequestDTO;

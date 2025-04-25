@@ -1,9 +1,7 @@
 package edu.miu.cs489.adswebapp.controller;
 
 import edu.miu.cs489.adswebapp.dto.response.AppointmentResponseDTO;
-import edu.miu.cs489.adswebapp.respository.AppointmentRepository;
 import edu.miu.cs489.adswebapp.service.AppointmentService;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
